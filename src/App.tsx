@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { StatusBar } from 'react-native'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import MainScreen from './MainScreen'
 import SplashVideo from './SplashVideo'
@@ -12,6 +13,11 @@ const App = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <StatusBar
+        // Prevents status bar turning light when WebView is mounted
+        // See react-native-webview GitHub issues: #1059, #3682, #735, #1219
+        barStyle="dark-content"
+      />
       <MainScreen onLoaded={() => setMainScreenReady(true)} />
       {shouldShowSplash && <SplashVideo
         onMinimumSplashTimeReached={() => setSplashTimeoutDone(true)}
