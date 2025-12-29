@@ -1,4 +1,4 @@
-package com.basewebviewapp
+package com.internowcorp.tiendaplazadelvestido
 
 import android.os.Bundle
 import com.facebook.react.ReactActivity
