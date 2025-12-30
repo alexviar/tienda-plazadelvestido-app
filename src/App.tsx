@@ -1,27 +1,22 @@
-import { useEffect, useState } from 'react'
-import BootSplash from 'react-native-bootsplash'
+import React, { useState } from 'react'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import MainScreen from './MainScreen'
+import SplashVideo from './SplashVideo'
 
 const App = () => {
   const [mainScreenReady, setMainScreenReady] = useState(false)
+  const [splashTimeoutDone, setSplashTimeoutDone] = useState(false)
+  const [splashVideoEnded, setSplashVideoEnded] = useState(false)
 
-  useEffect(() => {
-    if (mainScreenReady) {
-      BootSplash.hide({ fade: true })
-      return
-    }
-
-    const timeout = setTimeout(() => {
-      BootSplash.hide({ fade: true })
-    }, 2000)
-
-    return () => clearTimeout(timeout)
-  }, [mainScreenReady])
+  const shouldShowSplash = !splashVideoEnded && (!mainScreenReady || !splashTimeoutDone)
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <MainScreen onLoaded={() => setMainScreenReady(true)} />
+      {shouldShowSplash && <SplashVideo
+        onMinimumSplashTimeReached={() => setSplashTimeoutDone(true)}
+        onVideoEnd={() => setSplashVideoEnded(true)}
+      />}
     </SafeAreaView>
   )
 }
